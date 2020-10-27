@@ -14,6 +14,7 @@ def set_project_paths(ctx):
     pp["PROJECT_ROOT"] = "."
     pp["IN_DATA_MGMT"] = "src/data_management/"
     pp["IN_DATA"] = "src/original_data/"
+    pp["IN_DATA_OWID"] = "covid-19-data/public/data/"
     pp["LIBRARY"] = "src/library"
     pp["BLD"] = ""
     pp["OUT_DATA"] = f"{out}/out/data"

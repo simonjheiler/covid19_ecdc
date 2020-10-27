@@ -1,0 +1,12 @@
+#! python
+
+
+def build(ctx):
+
+    ctx(
+        features="run_py_script",
+        source="get_data.py",
+        target=[],
+        deps=[],
+        name="get_data",
+    )
