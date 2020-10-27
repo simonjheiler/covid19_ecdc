@@ -1,0 +1,68 @@
+# build directories and files
+__pycache__
+bld
+
+# literature and misc folder
+literature
+replication
+
+# cps_monthly data directory
+src/original_data/cps_monthly
+src/original_data/cps_yearly
+
+# latex-related
+*-blx.bib
+*latexmk
+*.asv
+*.aux
+*.bbl
+*.bcf
+*.bib_*.utf8
+*.blg
+*.dvi
+*.ent
+*.fff
+*.fls
+*.glo
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.mod
+*.nav
+*.o
+*.out
+*.pdf
+*.pdfsync
+*.prj
+*.pyc
+*.run.xml
+*.snm
+*.toc
+*.ttt
+
+
+# waf-related
+.waf*
+waf-*
+waf3-*
+.lock-waf_win32_build
+
+
+# OS-related
+Thumbs.db
+
+
+# PyCharm-related
+.idea
+
+# exceptions
+!.environment.osx.yml
+!.environment.windows.yml
+!.environment.linux.yml
+!.env
+!.gitignore
+!.mywaflib
+!.pre-commit-config.yaml

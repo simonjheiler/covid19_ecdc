@@ -1,0 +1,33 @@
+name: covid
+
+channels:
+  - conda-forge
+  - opensourceeconomics
+  - r
+
+dependencies:
+  - python
+  - numpy
+  - pip
+  - pytest
+  - conda-build
+  - prettytable
+  - matplotlib
+  - numba
+  - rpy2
+  - seaborn
+  - r-aer
+  - r-aod
+  - r-base
+  - r-essentials
+  - r-ggeffects
+  - r-ggplot2
+  - r-lmtest
+  - r-rjson
+  - r-sandwich
+  - r-stargazer
+
+  - pip:
+    - stargazer
+    - pre-commit
+    - numpy-financial
