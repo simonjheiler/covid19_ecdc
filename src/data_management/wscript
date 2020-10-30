@@ -3,10 +3,18 @@
 
 def build(ctx):
 
+    targets = [
+        ctx.path_to(ctx, "OUT_FIGURES", "DEU.pdf"),
+        ctx.path_to(ctx, "OUT_FIGURES", "FRA.pdf"),
+    ]
+
     ctx(
         features="run_py_script",
-        source="get_data.py",
-        target=[],
-        deps=[],
+        source="get_figures.py",
+        target=targets,
+        deps=[
+            ctx.path_to(ctx, "IN_DATA", "country_and_continent_codes.csv"),
+            ctx.path_to(ctx, "IN_DATA_OWID", "owid-covid-data.csv"),
+        ],
         name="get_data",
     )
