@@ -76,8 +76,5 @@ def build(ctx):
     ctx.path_to = path_to
     # Generate header file(s) with project paths in "bld" directory
     ctx(features="write_project_paths", target="project_paths.py")
-    ctx(features="write_project_paths", target="project_paths.do")
-    ctx(features="write_project_paths", target="project_paths.m")
-    ctx(features="write_project_paths", target="project_paths.r")
     ctx.add_group()
     ctx.recurse("src")

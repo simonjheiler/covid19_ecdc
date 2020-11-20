@@ -1,9 +1,24 @@
 #! python
+import os
 
 
 def build(ctx):
 
-    targets = []
+    dependencies_divi = []
+    for file in os.listdir(
+        os.path.join(ctx.env.PROJECT_PATHS["IN_DATA"].abspath(), "divi")
+    ):
+        dependencies_divi += [ctx.path_to(ctx, "IN_DATA", "divi", file)]
+
+    ctx(
+        features="run_py_script",
+        source="get_data.py",
+        targets=[ctx.path_to(ctx, "OUT_DATA", "divi_data.csv")],
+        deps=dependencies_divi,
+        name="get_data",
+    )
+
+    targets = [ctx.path_to(ctx, "OUT_FIGURES", "divi_icu_time_series.pdf")]
     for country in ["DEU", "FRA", "USA", "ESP", "ITA", "BEL"]:
         targets += [
             ctx.path_to(ctx, "OUT_FIGURES", "covid_time_series_" + country + ".pdf")
@@ -16,6 +31,7 @@ def build(ctx):
         deps=[
             ctx.path_to(ctx, "IN_DATA", "country_and_continent_codes.csv"),
             ctx.path_to(ctx, "IN_DATA_OWID", "owid-covid-data.csv"),
+            ctx.path_to(ctx, "OUT_DATA", "divi_data.csv"),
         ],
-        name="get_data",
+        name="get_figures",
     )
