@@ -3,10 +3,11 @@
 
 def build(ctx):
 
-    targets = [
-        ctx.path_to(ctx, "OUT_FIGURES", "DEU.pdf"),
-        ctx.path_to(ctx, "OUT_FIGURES", "FRA.pdf"),
-    ]
+    targets = []
+    for country in ["DEU", "FRA", "USA", "ESP", "ITA", "BEL"]:
+        targets += [
+            ctx.path_to(ctx, "OUT_FIGURES", "covid_time_series_" + country + ".pdf")
+        ]
 
     ctx(
         features="run_py_script",

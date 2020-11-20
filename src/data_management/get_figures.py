@@ -58,7 +58,46 @@ def plot_development_over_time(input_data):
             ax[row, col].set_xlim((plot_x[0], plot_x[-1]))
             plt.setp(ax[row, col].xaxis.get_majorticklabels(), rotation=90)
 
-    fig.savefig(ppj("OUT_FIGURES", iso_code + ".pdf"))
+    fig.savefig(ppj("OUT_FIGURES", "covid_time_series_" + iso_code + ".pdf"))
+
+
+def _plot_stacked_area_100(data, params):
+
+    try:
+        figsize = params["figsize"]
+    except KeyError:
+        figsize = (12, 6)
+
+    x = pd.to_datetime(data.index)
+
+    fig, ax = plt.subplots(figsize=figsize)
+
+    ax.stackplot(
+        x,
+        data.T,
+        labels=data.columns,
+        alpha=0.2,
+        # colors=colors,
+    )
+
+    for idx in range(data.shape[1] - 1):
+        ax.plot(
+            x, data.cumsum(axis=1).iloc[:, idx], color="dimgray", linestyle="dotted",
+        )
+
+    # format axes
+    ax.set_xlim(pd.to_datetime([data.index[0], data.index[-1]]))
+    ax.xaxis_date()
+    ax.xaxis.set_major_formatter(mdates.DateFormatter("%b \n %Y"))
+
+    # format plot area
+    ax.margins(0, 0)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    # save figure
+    fig.savefig(params["outpath"])
+    plt.close()
 
 
 #######################
@@ -130,6 +169,21 @@ if __name__ == "__main__":
         dtype=owid_dtypes,
         parse_dates=["date"],
     )
+    divi_df = pd.read_csv(
+        ppj("IN_DATA", "divi_data.csv"), parse_dates=["date"], dtype=float
+    )
+    divi_df.index = divi_df.date
+
+    # add variables
+    divi_df.loc[:, "ICU_covid_ventilated"] = divi_df.total_cases_ventilated
+    divi_df.loc[:, "ICU_covid_not_ventilated"] = (
+        divi_df.total_cases_hospitalized - divi_df.total_cases_ventilated
+    )
+    divi_df.loc[:, "ICU_other"] = (
+        divi_df.beds_occupied - divi_df.total_cases_hospitalized
+    )
+    divi_df.loc[:, "ICU_vacant"] = divi_df.beds_vacant
+    divi_df.loc[:, "ICU_capacity"] = divi_df.beds_vacant + divi_df.beds_occupied
 
     # drop double entries
     country_codes.drop(
@@ -347,6 +401,23 @@ if __name__ == "__main__":
     #     "BRA",
     # ]
     countries = ["DEU", "FRA", "USA", "ESP", "ITA", "BEL"]
+
+    plot_data = pd.DataFrame(
+        data=divi_df.loc[
+            :,
+            [
+                "ICU_covid_ventilated",
+                "ICU_covid_not_ventilated",
+                "ICU_other",
+                "ICU_vacant",
+            ],
+        ]
+    )
+    plot_params = {
+        "figsize": (8, 16 / 3),
+        "outpath": ppj("OUT_FIGURES", "divi_icu_time_series.pdf"),
+    }
+    _plot_stacked_area_100(plot_data, plot_params)
 
     for country in countries:
         country_data = analysis_df[analysis_df["iso_code"] == country]
