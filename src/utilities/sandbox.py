@@ -35,10 +35,10 @@ if __name__ == "__main__":
         if file.startswith("DIVI-Intensivregister_") and file.endswith(".csv")
     ]
 
-    file_list = os.listdir(ppj("IN_DATA", "divi_json"))
-    files = [file for file in file_list if file.endswith("_intensivregister.json")]
-    for file in files:
-        divi_df = json.load(open(ppj("IN_DATA", "divi_json", file)))
+    # file_list = os.listdir(ppj("IN_DATA", "divi_json"))
+    # files = [file for file in file_list if file.endswith("_intensivregister.json")]
+    # for file in files:
+    #     divi_df = json.load(open(ppj("IN_DATA", "divi_json", file)))
 
     cols_analysis = [
         "bundesland",
