@@ -15,6 +15,7 @@ def set_project_paths(ctx):
     pp["IN_DATA_MGMT"] = "src/data_management/"
     pp["IN_DATA"] = "src/original_data/"
     pp["IN_DATA_OWID"] = "covid-19-data/public/data/"
+    pp["IN_SPECS"] = "src/specs/"
     pp["LIBRARY"] = "src/library"
     pp["BLD"] = ""
     pp["OUT_DATA"] = f"{out}/out/data"
@@ -64,9 +65,6 @@ def configure(ctx):
     # Vector graphics output in batch mode.
     ctx.env.PDFLATEXFLAGS = ["-halt-on-error"]
     ctx.load("run_py_script")
-    ctx.load("run_do_script")
-    ctx.load("run_m_script")
-    ctx.load("run_r_script")
     ctx.load("write_project_headers")
     ctx.load("biber")
 

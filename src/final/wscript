@@ -1,0 +1,34 @@
+#! python
+import json
+import os
+
+
+def build(ctx):
+
+    analysis_specs = json.load(
+        open(
+            os.path.join(
+                ctx.env.PROJECT_PATHS["IN_SPECS"].abspath(), "analysis_specs.json"
+            )
+        )
+    )
+    country_list = analysis_specs["countries"]
+
+    targets = [ctx.path_to(ctx, "OUT_FIGURES", "divi_icu_time_series.pdf")]
+    for country in country_list:
+        targets += [
+            ctx.path_to(
+                ctx, "BLD", "out", "figures", "covid_time_series_" + country + ".pdf"
+            )
+        ]
+
+    ctx(
+        features="run_py_script",
+        source="get_figures.py",
+        target=targets,
+        deps=[
+            ctx.path_to(ctx, "IN_DATA_OWID", "owid-covid-data.csv"),
+            ctx.path_to(ctx, "OUT_DATA", "divi_data.csv"),
+        ],
+        name="get_figures",
+    )

@@ -10,28 +10,17 @@ def build(ctx):
     ):
         dependencies_divi += [ctx.path_to(ctx, "IN_DATA", "divi", file)]
 
-    ctx(
-        features="run_py_script",
-        source="get_data.py",
-        targets=[ctx.path_to(ctx, "OUT_DATA", "divi_data.csv")],
-        deps=dependencies_divi,
-        name="get_data",
-    )
-
-    targets = [ctx.path_to(ctx, "OUT_FIGURES", "divi_icu_time_series.pdf")]
-    for country in ["DEU", "FRA", "USA", "ESP", "ITA", "BEL"]:
-        targets += [
-            ctx.path_to(ctx, "OUT_FIGURES", "covid_time_series_" + country + ".pdf")
-        ]
+    dependencies = dependencies_divi + [
+        ctx.path_to(ctx, "IN_DATA_OWID", "owid-covid-data.csv")
+    ]
 
     ctx(
         features="run_py_script",
-        source="get_figures.py",
-        target=targets,
-        deps=[
-            ctx.path_to(ctx, "IN_DATA", "country_and_continent_codes.csv"),
-            ctx.path_to(ctx, "IN_DATA_OWID", "owid-covid-data.csv"),
+        source="prepare_data.py",
+        target=[
             ctx.path_to(ctx, "OUT_DATA", "divi_data.csv"),
+            ctx.path_to(ctx, "OUT_DATA", "owid_data.csv"),
         ],
-        name="get_figures",
+        deps=dependencies,
+        name="prepare_data",
     )

@@ -81,3 +81,82 @@ if __name__ == "__main__":
     ].sum()
 
     df.to_csv(ppj("IN_DATA", "divi_data.csv"))
+
+    # clean country codes
+    country_codes = pd.read_csv(
+        ppj("IN_DATA", "misc", "country_and_continent_codes.csv")
+    )
+
+    # drop double entries
+    country_codes.drop(
+        country_codes[
+            np.logical_and(
+                country_codes.Country_Name == "Azerbaijan, Republic of",
+                country_codes.Continent_Name == "Europe",
+            )
+        ].index,
+        inplace=True,
+    )
+    country_codes.drop(
+        country_codes[
+            np.logical_and(
+                country_codes.Country_Name == "Armenia, Republic of",
+                country_codes.Continent_Name == "Europe",
+            )
+        ].index,
+        inplace=True,
+    )
+    country_codes.drop(
+        country_codes[
+            np.logical_and(
+                country_codes.Country_Name == "Cyprus, Republic of",
+                country_codes.Continent_Name == "Asia",
+            )
+        ].index,
+        inplace=True,
+    )
+    country_codes.drop(
+        country_codes[
+            np.logical_and(
+                country_codes.Country_Name == "Georgia",
+                country_codes.Continent_Name == "Europe",
+            )
+        ].index,
+        inplace=True,
+    )
+    country_codes.drop(
+        country_codes[
+            np.logical_and(
+                country_codes.Country_Name == "Kazakhstan, Republic of",
+                country_codes.Continent_Name == "Europe",
+            )
+        ].index,
+        inplace=True,
+    )
+    country_codes.drop(
+        country_codes[
+            np.logical_and(
+                country_codes.Country_Name == "United States Minor Outlying Islands",
+                country_codes.Continent_Name == "Oceania",
+            )
+        ].index,
+        inplace=True,
+    )
+    country_codes.drop(
+        country_codes[
+            np.logical_and(
+                country_codes.Country_Name == "Russian Federation",
+                country_codes.Continent_Name == "Asia",
+            )
+        ].index,
+        inplace=True,
+    )
+    country_codes.drop(
+        country_codes[
+            np.logical_and(
+                country_codes.Country_Name == "Turkey, Republic of",
+                country_codes.Continent_Name == "Europe",
+            )
+        ].index,
+        inplace=True,
+    )
